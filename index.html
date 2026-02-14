@@ -1,236 +1,954 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" class="h-full">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Be My Valentine 💘</title>
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
-
-  <!-- Confetti -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prince K. Chaudhary - Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
-      background-size: 400% 400%;
-      animation: bgMove 12s ease infinite;
-      font-family: "Poppins", sans-serif;
+      box-sizing: border-box;
+      font-family: 'Sora', sans-serif;
+    }
+    
+    .page-section {
+      display: none;
+    }
+    
+    .page-section.active {
+      display: block;
+      animation: fadeIn 0.4s ease-out;
+    }
+    
+    .nav-link.active {
+      color: #8b5cf6 !important;
+      font-weight: 600;
+    }
+    
+    .nav-link:hover {
+      color: #8b5cf6 !important;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* WhatsApp Button Animation */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    .whatsapp-btn {
+      animation: pulse 2s infinite;
+    }
+    
+    /* Logo styling */
+    .logo-container {
+      transition: transform 0.3s ease;
+    }
+    
+    .logo-container:hover {
+      transform: scale(1.05);
+    }
+
+    /* Custom Cursor Glow */
+    #glow-cursor {
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(109,40,217,0.25) 0%, rgba(30,58,138,0.15) 40%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, background 0.2s;
+      mix-blend-mode: screen;
+    }
+
+    /* Shimmer effect */
+    .bg-gradient-to-r,
+    .whatsapp-btn,
+    .px-8.py-4, 
+    .px-10.py-4,
+    .px-5.py-2,
+    .inline-block.px-8.py-4,
+    .inline-block.px-10.py-4,
+    button[type="submit"],
+    .nav-link[data-page="contact"] {
+      position: relative;
       overflow: hidden;
+      transition: all 0.3s ease;
     }
 
-    @keyframes bgMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .card {
-      width: min(92%, 420px);
-      padding: 40px 30px 45px;
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(18px);
-      border-radius: 28px;
-      text-align: center;
-      box-shadow:
-        0 30px 80px rgba(0,0,0,0.25),
-        inset 0 0 0 1px rgba(255,255,255,0.4);
-      position: relative;
-      animation: cardIn 1.1s ease;
-    }
-
-    @keyframes cardIn {
-      from { opacity: 0; transform: translateY(30px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    .card::before {
-      content: "";
+    .bg-gradient-to-r:hover::after,
+    .whatsapp-btn:hover::after,
+    .px-8.py-4:hover::after,
+    .px-10.py-4:hover::after,
+    .px-5.py-2:hover::after,
+    .inline-block.px-8.py-4:hover::after,
+    .inline-block.px-10.py-4:hover::after,
+    button[type="submit"]:hover::after,
+    .nav-link[data-page="contact"]:hover::after {
+      content: '';
       position: absolute;
-      inset: -2px;
-      border-radius: 30px;
-      background: linear-gradient(120deg, #ff4d6d, #ff9a9e, #fbc2eb);
-      z-index: -1;
-      filter: blur(20px);
-      opacity: 0.7;
-    }
-
-    .emoji {
-      font-size: 68px;
-      margin-bottom: 12px;
-      animation: heartbeat 1.8s infinite;
-    }
-
-    @keyframes heartbeat {
-      0%,100% { transform: scale(1); }
-      25% { transform: scale(1.08); }
-      50% { transform: scale(1); }
-      75% { transform: scale(1.12); }
-    }
-
-    h2 {
-      font-family: "Playfair Display", serif;
-      font-size: 28px;
-      color: #4a1c2f;
-      margin-bottom: 30px;
-      line-height: 1.35;
-    }
-
-    .buttons {
-      position: relative;
-      height: 78px;
-    }
-
-    button {
-      position: absolute;
-      padding: 14px 36px;
-      border-radius: 40px;
-      border: none;
-      font-size: 16px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    }
-
-    button:active {
-      transform: scale(0.94);
-    }
-
-    #yes {
-      left: 12%;
-      background: linear-gradient(135deg, #ff4d6d, #ff758f);
-      color: #fff;
-      box-shadow: 0 15px 35px rgba(255,77,109,0.55);
-    }
-
-    #yes:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 20px 40px rgba(255,77,109,0.7);
-    }
-
-    #no {
-      left: 55%;
-      background: rgba(255,255,255,0.9);
-      color: #777;
-    }
-
-    .hint {
-      margin-top: 28px;
-      font-size: 13px;
-      color: #6b6b6b;
-      font-style: italic;
-    }
-
-    .heart {
-      position: absolute;
-      bottom: -20px;
-      animation: floatUp linear forwards;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 1.5s infinite;
       pointer-events: none;
     }
 
-    @keyframes floatUp {
-      from {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-      }
-      to {
-        transform: translateY(-120vh) scale(1.8);
-        opacity: 0;
-      }
+    @keyframes shimmer {
+      0% { transform: translateX(-150%); }
+      100% { transform: translateX(150%); }
     }
 
-    @media (max-width: 480px) {
-      h2 { font-size: 23px; }
-      .emoji { font-size: 58px; }
-      button { padding: 12px 28px; font-size: 15px; }
-      #yes { left: 8%; }
-      #no { left: 55%; }
+    .rounded-2xl, .rounded-xl, .rounded-3xl {
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+    .rounded-2xl:hover, .rounded-xl:hover, .rounded-3xl:hover {
+      transform: scale(1.02);
+      border-color: rgba(109,40,217,0.5);
+    }
+
+    #project-detail .detail-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .filter-tab.active {
+      background: rgba(109,40,217,0.3);
+      border-color: rgba(109,40,217,0.8);
+      color: white;
+    }
+
+    /* Navbar scroll effect */
+    nav {
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    nav.scrolled {
+      background: rgba(15, 23, 42, 0.4) !important;
+      backdrop-filter: blur(20px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+      border-bottom: 1px solid rgba(109, 40, 217, 0.5) !important;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(109, 40, 217, 0.1) inset;
+      overflow: hidden;
+    }
+
+    nav.scrolled::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 50%, 
+        rgba(109, 40, 217, 0.15) 0%,
+        rgba(30, 58, 138, 0.1) 40%,
+        transparent 80%
+      );
+      animation: liquidFlow 12s infinite alternate ease-in-out;
+      pointer-events: none;
+      opacity: 0.8;
+      mix-blend-mode: screen;
+    }
+
+    nav.scrolled::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 300%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.05),
+        rgba(109, 40, 217, 0.1),
+        rgba(255, 255, 255, 0.05),
+        transparent
+      );
+      animation: liquidSlide 8s infinite ease-in-out;
+      pointer-events: none;
+      transform: skewX(-20deg);
+    }
+
+    @keyframes liquidFlow {
+      0% { background-position: 0% 0%; opacity: 0.5; }
+      50% { background-position: 100% 0%; opacity: 0.9; }
+      100% { background-position: 0% 0%; opacity: 0.5; }
+    }
+
+    @keyframes liquidSlide {
+      0% { left: -100%; opacity: 0.3; }
+      50% { left: 100%; opacity: 0.7; }
+      100% { left: -100%; opacity: 0.3; }
+    }
+
+    .fade-section {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .fade-section.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
+<body class="h-full bg-slate-950 text-white">
+  <!-- Mouse Glow -->
+  <div id="glow-cursor"></div>
 
-<body>
-
-  <div class="card">
-    <div class="emoji">🐱❤️</div>
-    <h2>Shris,<br>will you be my Valentine?</h2>
-
-    <div class="buttons">
-      <button id="yes">Yes 💖</button>
-      <button id="no">No 🙈</button>
+  <div id="app-container" class="w-full h-full overflow-auto">
+   
+    <!-- WhatsApp Floating Button -->
+    <div class="fixed bottom-6 right-6 z-50">
+      <a href="https://wa.me/9779709131464?text=Hi%20Prince!%20I'm%20interested%20in%20your%20services" 
+         target="_blank" 
+         class="whatsapp-btn block w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg transition-all duration-300 group">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.149-.173.198-.297.298-.496.099-.198.05-.371-.025-.521-.074-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.012-.57-.012-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.677-.236-.375a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.9 6.994c-.004 5.45-4.438 9.88-9.888 9.88m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.333.158 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.304-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.333 11.89-11.893 0-3.18-1.24-6.162-3.495-8.411"/>
+        </svg>
+        <span class="absolute -top-2 -right-2 bg-white text-[#25D366] text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center group-hover:scale-110 transition-transform">↓</span>
+      </a>
     </div>
 
-    <div class="hint">Some love stories don’t allow “no” ✨</div>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-slate-950/80 border-b border-purple-500/20 transition-all duration-500">
+      <div class="max-w-7xl mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3 logo-container">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-blue-900 flex items-center justify-center overflow-hidden">
+              <span class="font-bold text-lg text-white">PK</span>
+            </div>
+            <span class="text-xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Prince K. Chaudhary</span>
+          </div>
+          <div class="hidden md:flex items-center gap-6">
+            <a href="#" data-page="home" class="nav-link active text-sm font-medium text-purple-400 transition-colors">Home</a>
+            <a href="#" data-page="about" class="nav-link text-sm text-gray-300 hover:text-purple-400 transition-colors">About</a>
+            <a href="#" data-page="services" class="nav-link text-sm text-gray-300 hover:text-purple-400 transition-colors">Services</a>
+            <a href="#" data-page="portfolio" class="nav-link text-sm text-gray-300 hover:text-purple-400 transition-colors">Portfolio</a>
+            <a href="#" data-page="testimonials" class="nav-link text-sm text-gray-300 hover:text-purple-400 transition-colors">Testimonials</a>
+            <a href="#" data-page="contact" class="px-5 py-2 bg-gradient-to-r from-purple-600 to-blue-900 rounded-lg text-sm font-semibold transition-all">Contact</a>
+          </div>
+          <button id="mobile-menu-toggle" class="md:hidden p-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-3">
+          <a href="#" data-page="home" class="block nav-link active text-purple-400 font-medium transition-colors">Home</a>
+          <a href="#" data-page="about" class="block nav-link text-gray-300 hover:text-purple-400 transition-colors">About</a>
+          <a href="#" data-page="services" class="block nav-link text-gray-300 hover:text-purple-400 transition-colors">Services</a>
+          <a href="#" data-page="portfolio" class="block nav-link text-gray-300 hover:text-purple-400 transition-colors">Portfolio</a>
+          <a href="#" data-page="testimonials" class="block nav-link text-gray-300 hover:text-purple-400 transition-colors">Testimonials</a>
+          <a href="#" data-page="contact" class="block nav-link text-gray-300 hover:text-purple-400 transition-colors">Contact</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ========== HOME PAGE ========== -->
+    <section id="home" class="page-section active pt-24">
+      <div class="max-w-7xl mx-auto px-6 py-20">
+        <div class="text-center max-w-4xl mx-auto mb-20 fade-section">
+          <div class="inline-block mb-6 px-6 py-2 rounded-full bg-purple-500/20 border border-purple-500/40">
+            <span class="text-purple-300 font-semibold">✨ Frontend Developer & Creative Designer</span>
+          </div>
+          <h1 id="hero-headline" class="text-5xl md:text-7xl font-bold mb-6 leading-tight bg-gradient-to-r from-purple-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">Crafting Code & Visual Stories</h1>
+          <p id="hero-subheading" class="text-xl text-gray-400 mb-10 leading-relaxed">I'm Prince – a frontend developer, video editor, and graphic designer with a passion for creating engaging digital experiences that blend functionality and aesthetics.</p>
+          <div class="flex flex-wrap gap-4 justify-center mb-12">
+            <a href="#" data-page="contact" class="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-900 rounded-xl font-semibold transition-all">Hire Me</a>
+            <a href="#" data-page="portfolio" class="px-8 py-4 border border-purple-500/50 rounded-xl font-semibold hover:bg-purple-500/10 transition-all">View My Work</a>
+          </div>
+          <!-- Stats -->
+          <div class="flex flex-wrap justify-center gap-8 text-center">
+            <div>
+              <div class="text-3xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent stat-number" data-target="3">0</div>
+              <div class="text-sm text-gray-500">Years Experience</div>
+            </div>
+            <div class="w-px h-12 bg-purple-500/30"></div>
+            <div>
+              <div class="text-3xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent stat-number" data-target="50">0</div>
+              <div class="text-sm text-gray-500">Projects Completed</div>
+            </div>
+            <div class="w-px h-12 bg-purple-500/30"></div>
+            <div>
+              <div class="text-3xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent stat-number" data-target="25">0</div>
+              <div class="text-sm text-gray-500">Happy Clients</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Services Overview -->
+        <div class="mb-20 fade-section">
+          <h2 class="text-3xl font-bold text-center mb-12">What I Do Best</h2>
+          <div class="grid md:grid-cols-3 gap-6">
+            <div class="p-8 rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 hover:border-purple-500/50 transition-all group">
+              <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">💻</div>
+              <h3 class="text-xl font-bold mb-3">Web Development</h3>
+              <p class="text-gray-400 mb-4">Modern, responsive websites built with clean code and intuitive design.</p>
+              <ul class="space-y-2 text-sm text-gray-500">
+                <li>✓ Frontend Development</li>
+                <li>✓ Responsive Design</li>
+                <li>✓ Performance Optimization</li>
+              </ul>
+            </div>
+            <div class="p-8 rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 hover:border-purple-500/50 transition-all group">
+              <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">🎬</div>
+              <h3 class="text-xl font-bold mb-3">Video Editing</h3>
+              <p class="text-gray-400 mb-4">Professional video editing for YouTube, reels, and promotional content.</p>
+              <ul class="space-y-2 text-sm text-gray-500">
+                <li>✓ YouTube Videos & Shorts</li>
+                <li>✓ Reels & Social Clips</li>
+                <li>✓ Motion Graphics</li>
+              </ul>
+            </div>
+            <div class="p-8 rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 hover:border-purple-500/50 transition-all group">
+              <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">🎨</div>
+              <h3 class="text-xl font-bold mb-3">Graphic Design</h3>
+              <p class="text-gray-400 mb-4">Eye-catching visuals that communicate your brand's message effectively.</p>
+              <ul class="space-y-2 text-sm text-gray-500">
+                <li>✓ Logo & Brand Identity</li>
+                <li>✓ Social Media Graphics</li>
+                <li>✓ Thumbnails & Banners</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Why Choose Me -->
+        <div class="mb-20 fade-section">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold mb-4">Why Work With Me</h2>
+            <p class="text-gray-400">I combine technical expertise with creative flair to deliver exceptional results</p>
+          </div>
+          <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="p-6 rounded-xl bg-gradient-to-br from-purple-900/20 to-blue-900/20 border border-purple-500/20 text-center">
+              <div class="text-4xl mb-3">⚡</div>
+              <h4 class="font-bold mb-2">Fast Turnaround</h4>
+              <p class="text-sm text-gray-400">Quality work delivered on time, every time.</p>
+            </div>
+            <div class="p-6 rounded-xl bg-gradient-to-br from-purple-900/20 to-blue-900/20 border border-purple-500/20 text-center">
+              <div class="text-4xl mb-3">🎯</div>
+              <h4 class="font-bold mb-2">Detail-Oriented</h4>
+              <p class="text-sm text-gray-400">No pixel is left behind – perfection in every project.</p>
+            </div>
+            <div class="p-6 rounded-xl bg-gradient-to-br from-purple-900/20 to-blue-900/20 border border-purple-500/20 text-center">
+              <div class="text-4xl mb-3">🤝</div>
+              <h4 class="font-bold mb-2">Client-Focused</h4>
+              <p class="text-sm text-gray-400">Your vision and satisfaction are my top priorities.</p>
+            </div>
+            <div class="p-6 rounded-xl bg-gradient-to-br from-purple-900/20 to-blue-900/20 border border-purple-500/20 text-center">
+              <div class="text-4xl mb-3">📈</div>
+              <h4 class="font-bold mb-2">Results Driven</h4>
+              <p class="text-sm text-gray-400">I focus on work that achieves your goals.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== ABOUT PAGE ========== -->
+    <section id="about" class="page-section pt-24">
+      <div class="max-w-7xl mx-auto px-6 py-20">
+        <div class="text-center max-w-3xl mx-auto mb-16 fade-section">
+          <h1 class="text-5xl md:text-6xl font-bold mb-6">About <span class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Me</span></h1>
+          <p class="text-xl text-gray-400">Frontend Developer | Video Editor | Graphic Designer</p>
+        </div>
+        <div class="grid lg:grid-cols-2 gap-12 mb-20 fade-section">
+          <div>
+            <h2 class="text-3xl font-bold mb-6">My Story</h2>
+            <p class="text-gray-400 text-lg mb-4">Hi, I'm Prince K. Chaudhary – a creative technologist with intermediate to advanced skills in frontend development, video editing, and graphic design. I love turning ideas into reality through code and visuals.</p>
+            <p class="text-gray-400 mb-4">My journey started with a curiosity for how things work on the web, which evolved into a passion for building user-friendly interfaces. Along the way, I discovered the power of visual storytelling through video and design, and now I combine all three to create complete digital experiences.</p>
+            <p class="text-gray-400 mb-6">Whether it's developing a sleek website, editing a captivating video, or designing a memorable logo, I bring dedication and creativity to every project. I'm currently freelancing and always open to exciting collaborations.</p>
+            <div class="grid grid-cols-3 gap-4">
+              <div class="text-center p-4 rounded-xl bg-purple-900/30 border border-purple-500/20">
+                <div class="text-3xl font-bold text-purple-400">3+</div>
+                <div class="text-sm text-gray-500">Years Coding</div>
+              </div>
+              <div class="text-center p-4 rounded-xl bg-purple-900/30 border border-purple-500/20">
+                <div class="text-3xl font-bold text-purple-400">50+</div>
+                <div class="text-sm text-gray-500">Projects</div>
+              </div>
+              <div class="text-center p-4 rounded-xl bg-purple-900/30 border border-purple-500/20">
+                <div class="text-3xl font-bold text-purple-400">25+</div>
+                <div class="text-sm text-gray-500">Clients</div>
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="p-6 rounded-2xl bg-gradient-to-br from-purple-900/50 to-blue-900/50 border border-purple-500/20">
+              <div class="text-4xl mb-3">💻</div>
+              <h3 class="font-bold mb-2">Frontend Dev</h3>
+              <p class="text-sm text-gray-400">HTML, CSS, JavaScript, React, Tailwind</p>
+            </div>
+            <div class="p-6 rounded-2xl bg-gradient-to-br from-purple-900/50 to-blue-900/50 border border-purple-500/20 mt-8">
+              <div class="text-4xl mb-3">🎬</div>
+              <h3 class="font-bold mb-2">Video Editing</h3>
+              <p class="text-sm text-gray-400">Premiere Pro, After Effects, DaVinci Resolve</p>
+            </div>
+            <div class="p-6 rounded-2xl bg-gradient-to-br from-purple-900/50 to-blue-900/50 border border-purple-500/20">
+              <div class="text-4xl mb-3">🎨</div>
+              <h3 class="font-bold mb-2">Graphic Design</h3>
+              <p class="text-sm text-gray-400">Photoshop, Illustrator, Figma</p>
+            </div>
+            <div class="p-6 rounded-2xl bg-gradient-to-br from-purple-900/50 to-blue-900/50 border border-purple-500/20 mt-8">
+              <div class="text-4xl mb-3">⚡</div>
+              <h3 class="font-bold mb-2">Tools</h3>
+              <p class="text-sm text-gray-400">VS Code, Git, Canva, CapCut</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SERVICES PAGE ========== -->
+    <section id="services" class="page-section pt-24">
+      <div class="max-w-7xl mx-auto px-6 py-20">
+        <div class="text-center max-w-3xl mx-auto mb-16 fade-section">
+          <h1 class="text-5xl md:text-6xl font-bold mb-6">My <span class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Services</span></h1>
+          <p class="text-xl text-gray-400">What I can do for you</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 fade-section">
+          <div class="p-8 rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 hover:border-purple-500/50 hover:scale-105 transition-all">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-600 to-blue-900 flex items-center justify-center mb-6"><span class="text-2xl">💻</span></div>
+            <h3 class="text-xl font-bold mb-3">Website Development</h3>
+            <p class="text-gray-400 mb-4">Custom, responsive websites built with modern technologies.</p>
+            <ul class="space-y-2 text-sm text-gray-500">
+              <li>✓ Frontend Development</li>
+              <li>✓ Responsive Design</li>
+              <li>✓ Performance Optimization</li>
+            </ul>
+          </div>
+          <div class="p-8 rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 hover:border-purple-500/50 hover:scale-105 transition-all">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-600 to-blue-900 flex items-center justify-center mb-6"><span class="text-2xl">🎬</span></div>
+            <h3 class="text-xl font-bold mb-3">Video Editing</h3>
+            <p class="text-gray-400 mb-4">Professional editing for YouTube, social media, and promos.</p>
+            <ul class="space-y-2 text-sm text-gray-500">
+              <li>✓ YouTube Videos & Shorts</li>
+              <li>✓ Reels & TikTok</li>
+              <li>✓ Motion Graphics</li>
+            </ul>
+          </div>
+          <div class="p-8 rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 hover:border-purple-500/50 hover:scale-105 transition-all">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-600 to-blue-900 flex items-center justify-center mb-6"><span class="text-2xl">🎨</span></div>
+            <h3 class="text-xl font-bold mb-3">Graphic Design</h3>
+            <p class="text-gray-400 mb-4">Eye-catching graphics for branding and marketing.</p>
+            <ul class="space-y-2 text-sm text-gray-500">
+              <li>✓ Social Media Posts</li>
+              <li>✓ Thumbnails & Banners</li>
+              <li>✓ Brand Assets</li>
+            </ul>
+          </div>
+          <div class="p-8 rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 hover:border-purple-500/50 hover:scale-105 transition-all">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-600 to-blue-900 flex items-center justify-center mb-6"><span class="text-2xl">🔤</span></div>
+            <h3 class="text-xl font-bold mb-3">Logo Design</h3>
+            <p class="text-gray-400 mb-4">Unique and memorable logos that represent your brand.</p>
+            <ul class="space-y-2 text-sm text-gray-500">
+              <li>✓ Custom Logo Design</li>
+              <li>✓ Brand Guidelines</li>
+              <li>✓ Vector Files</li>
+            </ul>
+          </div>
+          <div class="p-8 rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 hover:border-purple-500/50 hover:scale-105 transition-all">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-600 to-blue-900 flex items-center justify-center mb-6"><span class="text-2xl">📺</span></div>
+            <h3 class="text-xl font-bold mb-3">YouTube Editing</h3>
+            <p class="text-gray-400 mb-4">Complete editing packages for YouTube creators.</p>
+            <ul class="space-y-2 text-sm text-gray-500">
+              <li>✓ Video Editing</li>
+              <li>✓ Thumbnail Design</li>
+              <li>✓ End Screens & Cards</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PORTFOLIO PAGE ========== -->
+    <section id="portfolio" class="page-section pt-24">
+      <div class="max-w-7xl mx-auto px-6 py-20">
+        <div class="text-center max-w-3xl mx-auto mb-16 fade-section">
+          <h1 class="text-5xl md:text-6xl font-bold mb-6">My <span class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Portfolio</span></h1>
+          <p class="text-xl text-gray-400">Some of my recent work</p>
+        </div>
+        
+        <!-- Filter Tabs -->
+        <div class="flex flex-wrap justify-center gap-4 mb-10 fade-section">
+          <button data-filter="all" class="filter-tab active px-5 py-2 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-300 font-medium hover:bg-purple-500/30 transition-all">All</button>
+          <button data-filter="websites" class="filter-tab px-5 py-2 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-300 font-medium hover:bg-purple-500/30 transition-all">Websites</button>
+          <button data-filter="videos" class="filter-tab px-5 py-2 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-300 font-medium hover:bg-purple-500/30 transition-all">Videos</button>
+          <button data-filter="graphics" class="filter-tab px-5 py-2 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-300 font-medium hover:bg-purple-500/30 transition-all">Graphics</button>
+          <button data-filter="logos" class="filter-tab px-5 py-2 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-300 font-medium hover:bg-purple-500/30 transition-all">Logos</button>
+        </div>
+        
+        <!-- Projects Grid -->
+        <div id="filterable-projects" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 fade-section">
+          <!-- Websites -->
+          <div class="project-item group rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 p-6 hover:border-purple-500/50 transition-all" data-category="websites">
+            <div class="aspect-video rounded-lg bg-gradient-to-br from-purple-600/50 to-blue-900/50 flex items-center justify-center mb-4">
+              <span class="text-6xl">💻</span>
+            </div>
+            <h4 class="font-bold text-lg mb-2">Eco Store</h4>
+            <p class="text-sm text-gray-400 mb-3">Sustainable products e-commerce site</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-purple-400">Website</span>
+              <button data-project-id="web1" class="details-btn px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-900 rounded-lg text-xs font-semibold">Details →</button>
+            </div>
+          </div>
+          <div class="project-item group rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 p-6 hover:border-purple-500/50 transition-all" data-category="websites">
+            <div class="aspect-video rounded-lg bg-gradient-to-br from-purple-600/50 to-blue-900/50 flex items-center justify-center mb-4">
+              <span class="text-6xl">📱</span>
+            </div>
+            <h4 class="font-bold text-lg mb-2">Portfolio 2025</h4>
+            <p class="text-sm text-gray-400 mb-3">Personal portfolio with smooth animations</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-purple-400">Website</span>
+              <button data-project-id="web2" class="details-btn px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-900 rounded-lg text-xs font-semibold">Details →</button>
+            </div>
+          </div>
+          <!-- Videos -->
+          <div class="project-item group rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 p-6 hover:border-purple-500/50 transition-all" data-category="videos">
+            <div class="aspect-video rounded-lg bg-gradient-to-br from-purple-600/50 to-blue-900/50 flex items-center justify-center mb-4">
+              <span class="text-6xl">🎬</span>
+            </div>
+            <h4 class="font-bold text-lg mb-2">Travel Vlog</h4>
+            <p class="text-sm text-gray-400 mb-3">Cinematic travel video for YouTube</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-purple-400">Video</span>
+              <button data-project-id="vid1" class="details-btn px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-900 rounded-lg text-xs font-semibold">Details →</button>
+            </div>
+          </div>
+          <div class="project-item group rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 p-6 hover:border-purple-500/50 transition-all" data-category="videos">
+            <div class="aspect-video rounded-lg bg-gradient-to-br from-purple-600/50 to-blue-900/50 flex items-center justify-center mb-4">
+              <span class="text-6xl">📹</span>
+            </div>
+            <h4 class="font-bold text-lg mb-2">Product Promo</h4>
+            <p class="text-sm text-gray-400 mb-3">30-second ad for a tech startup</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-purple-400">Video</span>
+              <button data-project-id="vid2" class="details-btn px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-900 rounded-lg text-xs font-semibold">Details →</button>
+            </div>
+          </div>
+          <!-- Graphics -->
+          <div class="project-item group rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 p-6 hover:border-purple-500/50 transition-all" data-category="graphics">
+            <div class="aspect-video rounded-lg bg-gradient-to-br from-purple-600/50 to-blue-900/50 flex items-center justify-center mb-4">
+              <span class="text-6xl">🎨</span>
+            </div>
+            <h4 class="font-bold text-lg mb-2">Social Media Kit</h4>
+            <p class="text-sm text-gray-400 mb-3">Complete Instagram templates for a cafe</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-purple-400">Graphic</span>
+              <button data-project-id="graphic1" class="details-btn px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-900 rounded-lg text-xs font-semibold">Details →</button>
+            </div>
+          </div>
+          <div class="project-item group rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 p-6 hover:border-purple-500/50 transition-all" data-category="graphics">
+            <div class="aspect-video rounded-lg bg-gradient-to-br from-purple-600/50 to-blue-900/50 flex items-center justify-center mb-4">
+              <span class="text-6xl">📊</span>
+            </div>
+            <h4 class="font-bold text-lg mb-2">Infographic</h4>
+            <p class="text-sm text-gray-400 mb-3">Data visualization for annual report</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-purple-400">Graphic</span>
+              <button data-project-id="graphic2" class="details-btn px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-900 rounded-lg text-xs font-semibold">Details →</button>
+            </div>
+          </div>
+          <!-- Logos -->
+          <div class="project-item group rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 p-6 hover:border-purple-500/50 transition-all" data-category="logos">
+            <div class="aspect-video rounded-lg bg-gradient-to-br from-purple-600/50 to-blue-900/50 flex items-center justify-center mb-4">
+              <span class="text-6xl">🔤</span>
+            </div>
+            <h4 class="font-bold text-lg mb-2">Zen Yoga</h4>
+            <p class="text-sm text-gray-400 mb-3">Minimalist logo for a yoga studio</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-purple-400">Logo</span>
+              <button data-project-id="logo1" class="details-btn px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-900 rounded-lg text-xs font-semibold">Details →</button>
+            </div>
+          </div>
+          <div class="project-item group rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 p-6 hover:border-purple-500/50 transition-all" data-category="logos">
+            <div class="aspect-video rounded-lg bg-gradient-to-br from-purple-600/50 to-blue-900/50 flex items-center justify-center mb-4">
+              <span class="text-6xl">🅰️</span>
+            </div>
+            <h4 class="font-bold text-lg mb-2">Nexus AI</h4>
+            <p class="text-sm text-gray-400 mb-3">Abstract tech logo for an AI startup</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-purple-400">Logo</span>
+              <button data-project-id="logo2" class="details-btn px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-900 rounded-lg text-xs font-semibold">Details →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TESTIMONIALS PAGE ========== -->
+    <section id="testimonials" class="page-section pt-24">
+      <div class="max-w-7xl mx-auto px-6 py-20">
+        <div class="text-center max-w-3xl mx-auto mb-16 fade-section">
+          <h1 class="text-5xl md:text-6xl font-bold mb-6">Client <span class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Testimonials</span></h1>
+          <p class="text-xl text-gray-400">What people say about working with me</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 fade-section">
+          <div class="p-8 rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 hover:border-purple-500/50 transition-all">
+            <div class="flex gap-1 mb-4 text-yellow-400">★★★★★</div>
+            <p class="text-gray-300 mb-6">"Prince designed a stunning website for my business. He was professional, creative, and delivered ahead of schedule. Highly recommended!"</p>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-blue-900 flex items-center justify-center font-bold">AK</div>
+              <div><div class="font-semibold">Anita K.</div><div class="text-sm text-gray-500">Cafe Owner</div></div>
+            </div>
+          </div>
+          <div class="p-8 rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 hover:border-purple-500/50 transition-all">
+            <div class="flex gap-1 mb-4 text-yellow-400">★★★★★</div>
+            <p class="text-gray-300 mb-6">"The video he edited for my YouTube channel went viral! Over 100k views in a week. His editing style is exactly what I needed."</p>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-blue-900 flex items-center justify-center font-bold">RJ</div>
+              <div><div class="font-semibold">Rahul J.</div><div class="text-sm text-gray-500">YouTuber</div></div>
+            </div>
+          </div>
+          <div class="p-8 rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 hover:border-purple-500/50 transition-all">
+            <div class="flex gap-1 mb-4 text-yellow-400">★★★★★</div>
+            <p class="text-gray-300 mb-6">"Prince created a beautiful logo and brand identity for my startup. He understood my vision perfectly and delivered exceptional work."</p>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-blue-900 flex items-center justify-center font-bold">SM</div>
+              <div><div class="font-semibold">Sneha M.</div><div class="text-sm text-gray-500">Founder, EcoCart</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PROJECT DETAIL PAGE ========== -->
+    <section id="project-detail" class="page-section pt-24">
+      <div class="max-w-7xl mx-auto px-6 py-20">
+        <div class="text-center mb-12">
+          <h1 class="text-5xl md:text-6xl font-bold mb-6">Project <span class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent" id="project-title">Details</span></h1>
+          <p class="text-xl text-gray-400" id="project-category">Category</p>
+        </div>
+        <div class="max-w-4xl mx-auto">
+          <div class="p-10 rounded-3xl bg-gradient-to-br from-purple-900/50 to-blue-900/50 border border-purple-500/30 mb-8">
+            <div class="flex justify-center mb-8">
+              <div id="project-icon" class="text-8xl">💻</div>
+            </div>
+            <h2 class="text-3xl font-bold mb-4 text-center" id="project-name">Project Name</h2>
+            <div class="grid md:grid-cols-2 gap-8 mt-8">
+              <div>
+                <h3 class="font-bold text-xl mb-3 text-purple-400">Client</h3>
+                <p class="text-gray-300" id="project-client">Client Name</p>
+                <h3 class="font-bold text-xl mb-3 mt-6 text-purple-400">Objective</h3>
+                <p class="text-gray-300" id="project-objective">Project goal</p>
+              </div>
+              <div>
+                <h3 class="font-bold text-xl mb-3 text-purple-400">Results</h3>
+                <p class="text-gray-300" id="project-results">Key outcomes</p>
+                <h3 class="font-bold text-xl mb-3 mt-6 text-purple-400">Tools Used</h3>
+                <p class="text-gray-300" id="project-tools">Tools</p>
+              </div>
+            </div>
+            <div class="mt-8 text-center">
+              <a href="#" data-page="portfolio" class="inline-block px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-900 rounded-lg font-semibold transition-all mt-4">Back to Portfolio</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CONTACT PAGE ========== -->
+    <section id="contact" class="page-section pt-24">
+      <div class="max-w-7xl mx-auto px-6 py-20">
+        <div class="text-center max-w-3xl mx-auto mb-16 fade-section">
+          <h1 class="text-5xl md:text-6xl font-bold mb-6">Get in <span class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Touch</span></h1>
+          <p class="text-xl text-gray-400">Let's discuss your project and create something amazing together</p>
+        </div>
+        <div class="grid lg:grid-cols-2 gap-12 fade-section">
+          <div>
+            <h2 class="text-3xl font-bold mb-8">Let's Talk About Your Project</h2>
+            <p class="text-gray-400 text-lg mb-8">Whether you need a website, a video, or a brand identity, I'm here to help. Reach out and let's bring your ideas to life.</p>
+            <div class="space-y-6">
+              <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-xl bg-purple-900/50 border border-purple-500/30 flex items-center justify-center flex-shrink-0"><span class="text-2xl">📧</span></div>
+                <div><div class="text-sm text-gray-500">Email</div><div id="contact-email" class="font-semibold text-lg">princechy027@gmail.com</div></div>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-xl bg-purple-900/50 border border-purple-500/30 flex items-center justify-center flex-shrink-0"><span class="text-2xl">📱</span></div>
+                <div><div class="text-sm text-gray-500">Phone / WhatsApp</div><div id="contact-phone" class="font-semibold text-lg">+977 9709131464</div></div>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-xl bg-purple-900/50 border border-purple-500/30 flex items-center justify-center flex-shrink-0"><span class="text-2xl">⏱️</span></div>
+                <div><div class="text-sm text-gray-500">Response time</div><div class="font-semibold text-lg">Within 24 hours</div></div>
+              </div>
+              <div class="mt-8 p-6 rounded-2xl bg-gradient-to-br from-[#25D366]/10 to-green-500/10 border border-[#25D366]/20">
+                <h3 class="font-bold mb-3 flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.149-.173.198-.297.298-.496.099-.198.05-.371-.025-.521-.074-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.012-.57-.012-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.677-.236-.375a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.9 6.994c-.004 5.45-4.438 9.88-9.888 9.88m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.333.158 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.304-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.333 11.89-11.893 0-3.18-1.24-6.162-3.495-8.411"/></svg>
+                  WhatsApp
+                </h3>
+                <p class="text-gray-400 text-sm mb-4">Quick replies on WhatsApp</p>
+                <a href="https://wa.me/9779709131464?text=Hi%20Prince!%20I'm%20interested%20in%20your%20services" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-[#25D366] text-white rounded-lg hover:bg-green-600 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.149-.173.198-.297.298-.496.099-.198.05-.371-.025-.521-.074-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.012-.57-.012-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.677-.236-.375a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.9 6.994c-.004 5.45-4.438 9.88-9.888 9.88m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.333.158 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.304-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.333 11.89-11.893 0-3.18-1.24-6.162-3.495-8.411"/></svg>
+                  Message me
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="p-8 rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20">
+            <form id="contact-form" class="space-y-6">
+              <div class="grid md:grid-cols-2 gap-6">
+                <div><label for="name" class="block text-sm font-medium mb-2">Full Name *</label><input type="text" id="name" name="name" required class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-purple-500/30 text-white placeholder-gray-500 transition-all"></div>
+                <div><label for="email" class="block text-sm font-medium mb-2">Email *</label><input type="email" id="email" name="email" required class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-purple-500/30 text-white placeholder-gray-500 transition-all"></div>
+              </div>
+              <div><label for="phone" class="block text-sm font-medium mb-2">Phone</label><input type="tel" id="phone" name="phone" class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-purple-500/30 text-white placeholder-gray-500 transition-all"></div>
+              <div><label for="service" class="block text-sm font-medium mb-2">Service Interested In *</label>
+                <select id="service" name="service" required class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-purple-500/30 text-white transition-all">
+                  <option value="" class="bg-slate-900">Select a service</option>
+                  <option value="web" class="bg-slate-900">Web Development</option>
+                  <option value="video" class="bg-slate-900">Video Editing</option>
+                  <option value="graphic" class="bg-slate-900">Graphic Design</option>
+                  <option value="logo" class="bg-slate-900">Logo Design</option>
+                  <option value="youtube" class="bg-slate-900">YouTube Editing</option>
+                </select>
+              </div>
+              <div><label for="message" class="block text-sm font-medium mb-2">Message *</label><textarea id="message" name="message" rows="5" required class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-purple-500/30 text-white placeholder-gray-500 transition-all resize-none"></textarea></div>
+              <button type="submit" class="w-full px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-900 rounded-xl font-bold text-lg transition-all">Send Message →</button>
+              <div id="form-success" class="hidden text-center p-4 rounded-xl bg-green-500/20 border border-green-500/50"><p class="text-green-400 font-semibold">✓ Message sent! I'll reply within 24 hours.</p></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-purple-500/20">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <div class="flex items-center justify-center gap-3 mb-6">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-blue-900 flex items-center justify-center font-bold"><span class="text-white">PK</span></div>
+          <span class="text-xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Prince K. Chaudhary</span>
+        </div>
+        <p class="text-gray-400 mb-6">Frontend Developer | Video Editor | Graphic Designer</p>
+        <div class="flex justify-center gap-4 mb-6">
+          <a href="https://wa.me/9779709131464" target="_blank" class="p-2 rounded-full bg-slate-800 hover:bg-slate-700 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.149-.173.198-.297.298-.496.099-.198.05-.371-.025-.521-.074-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.012-.57-.012-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.677-.236-.375a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.9 6.994c-.004 5.45-4.438 9.88-9.888 9.88m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.333.158 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.304-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.333 11.89-11.893 0-3.18-1.24-6.162-3.495-8.411"/></svg>
+          </a>
+          <a href="mailto:princechy027@gmail.com" class="p-2 rounded-full bg-slate-800 hover:bg-slate-700 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/></svg>
+          </a>
+          <a href="tel:+9779709131464" class="p-2 rounded-full bg-slate-800 hover:bg-slate-700 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.5-5.2-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1h-4c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-4c0-.6-.4-1-1-1zm-2-9h2c0 4.4-3.6 8-8 8v-2c3.3 0 6-2.7 6-6zm-4 0h2c0 2.8-2.2 5-5 5v-2c1.7 0 3-1.3 3-3z"/></svg>
+          </a>
+        </div>
+        <div class="text-sm text-gray-500">© 2025 Prince K. Chaudhary. All rights reserved.</div>
+      </div>
+    </footer>
   </div>
 
-  <!-- Sounds -->
-  <audio id="hoverSound" src="https://assets.mixkit.co/sfx/preview/mixkit-cartoon-voice-laugh-343.mp3"></audio>
-  <audio id="yesSound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"></audio>
-
   <script>
-    const noBtn = document.getElementById("no");
-    const yesBtn = document.getElementById("yes");
-    const card = document.querySelector(".card");
-    const hoverSound = document.getElementById("hoverSound");
-    const yesSound = document.getElementById("yesSound");
-
-    noBtn.addEventListener("mouseenter", () => {
-      hoverSound.currentTime = 0;
-      hoverSound.play();
-
-      const cardRect = card.getBoundingClientRect();
-      const btnRect = noBtn.getBoundingClientRect();
-
-      const maxX = cardRect.width - btnRect.width - 10;
-      const maxY = cardRect.height - btnRect.height - 10;
-
-      noBtn.style.left = Math.random() * maxX + "px";
-      noBtn.style.top = Math.random() * maxY + "px";
-    });
-
-    yesBtn.addEventListener("click", () => {
-
-      yesSound.play();
-
-      confetti({
-        particleCount: 260,
-        spread: 120,
-        origin: { y: 0.65 }
+    const defaultConfig = {
+      hero_headline: "Crafting Code & Visual Stories",
+      hero_subheading: "I'm Prince – a frontend developer, video editor, and graphic designer with a passion for creating engaging digital experiences that blend functionality and aesthetics.",
+      contact_email: "princechy027@gmail.com",
+      contact_phone: "+977 9709131464"
+    };
+    
+    function initNavigation() {
+      const navLinks = document.querySelectorAll('.nav-link, a[data-page]');
+      const pages = document.querySelectorAll('.page-section');
+      
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetPage = link.getAttribute('data-page');
+          if (targetPage) {
+            pages.forEach(page => page.classList.remove('active'));
+            const target = document.getElementById(targetPage);
+            if (target) {
+              target.classList.add('active');
+              document.querySelectorAll('.nav-link').forEach(navLink => navLink.classList.remove('active'));
+              document.querySelectorAll(`.nav-link[data-page="${targetPage}"]`).forEach(navLink => navLink.classList.add('active'));
+              document.getElementById('app-container').scrollTop = 0;
+              const mobileMenu = document.getElementById('mobile-menu');
+              if (mobileMenu) mobileMenu.classList.add('hidden');
+            }
+          }
+        });
       });
+      
+      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (mobileMenuToggle && mobileMenu) {
+        mobileMenuToggle.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+      }
+    }
+    
+    function initProjectDetails() {
+      const detailsBtns = document.querySelectorAll('.details-btn');
+      const pages = document.querySelectorAll('.page-section');
+      
+      const projectData = {
+        web1: { title: 'Eco Store', category: 'Website', icon: '💻', client: 'EcoCart', objective: 'Create a modern e-commerce site for sustainable products', results: '40% increase in online sales, 2.3s load time', tools: 'React, Tailwind, Shopify' },
+        web2: { title: 'Portfolio 2025', category: 'Website', icon: '📱', client: 'Personal Project', objective: 'Showcase creative work with smooth animations', results: 'Featured on Awwwards, 5k+ visits', tools: 'Next.js, Framer Motion' },
+        vid1: { title: 'Travel Vlog', category: 'Video', icon: '🎬', client: 'Wanderlust Adventures', objective: 'Cinematic travel video for YouTube', results: '120k+ views, 8k likes', tools: 'Premiere Pro, After Effects' },
+        vid2: { title: 'Product Promo', category: 'Video', icon: '📹', client: 'TechSphere', objective: '30-second ad for a new gadget', results: '500k+ views, 15k shares', tools: 'DaVinci Resolve, Fusion' },
+        graphic1: { title: 'Social Media Kit', category: 'Graphic', icon: '🎨', client: 'Brew & Bites', objective: 'Consistent Instagram branding', results: '300% engagement increase', tools: 'Photoshop, Illustrator' },
+        graphic2: { title: 'Infographic', category: 'Graphic', icon: '📊', client: 'Global Health Org', objective: 'Visualize annual health data', results: 'Featured in WHO report', tools: 'Illustrator, InDesign' },
+        logo1: { title: 'Zen Yoga', category: 'Logo', icon: '🔤', client: 'Zen Yoga Studio', objective: 'Minimalist, calming logo', results: 'Brand identity adopted across all channels', tools: 'Illustrator, Figma' },
+        logo2: { title: 'Nexus AI', category: 'Logo', icon: '🅰️', client: 'Nexus AI', objective: 'Futuristic tech logo', results: 'Won startup design award', tools: 'Illustrator, Blender' }
+      };
 
-      setTimeout(() => {
-        window.location.href = "index2.html";
-      }, 1200);
-
-    });
-
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.innerHTML = Math.random() > 0.5 ? "❤️" : "💗";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = Math.random() * 22 + 14 + "px";
-      heart.style.animationDuration = Math.random() * 3 + 4 + "s";
-      heart.style.opacity = Math.random() * 0.5 + 0.4;
-
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 8000);
+      detailsBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const projectId = btn.getAttribute('data-project-id');
+          const data = projectData[projectId];
+          if (data) {
+            document.getElementById('project-title').textContent = data.title;
+            document.getElementById('project-category').textContent = data.category;
+            document.getElementById('project-icon').textContent = data.icon;
+            document.getElementById('project-name').textContent = data.title;
+            document.getElementById('project-client').textContent = data.client;
+            document.getElementById('project-objective').textContent = data.objective;
+            document.getElementById('project-results').textContent = data.results;
+            document.getElementById('project-tools').textContent = data.tools;
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById('project-detail').classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(navLink => navLink.classList.remove('active'));
+            document.getElementById('app-container').scrollTop = 0;
+          }
+        });
+      });
     }
 
-    setInterval(createHeart, 380);
-  </script>
+    function initFilter() {
+      const filterTabs = document.querySelectorAll('.filter-tab');
+      const projectItems = document.querySelectorAll('.project-item');
+      filterTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          filterTabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          const filterValue = tab.getAttribute('data-filter');
+          projectItems.forEach(item => {
+            if (filterValue === 'all') {
+              item.style.display = 'block';
+            } else {
+              item.style.display = item.getAttribute('data-category') === filterValue ? 'block' : 'none';
+            }
+          });
+        });
+      });
+    }
+    
+    function initContactForm() {
+      const form = document.getElementById('contact-form');
+      const successMessage = document.getElementById('form-success');
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = document.getElementById('name')?.value.trim() || 'Not provided';
+          const email = document.getElementById('email')?.value.trim() || 'Not provided';
+          const phone = document.getElementById('phone')?.value.trim() || 'Not provided';
+          const serviceSelect = document.getElementById('service');
+          const service = serviceSelect?.options[serviceSelect.selectedIndex]?.text || 'Not selected';
+          const message = document.getElementById('message')?.value.trim() || 'No message';
+          const whatsappMessage = `*New Inquiry from Portfolio*%0A%0A*Name:* ${name}%0A*Email:* ${email}%0A*Phone:* ${phone}%0A*Service:* ${service}%0A*Message:* ${message}`;
+          window.open(`https://wa.me/9779709131464?text=${whatsappMessage}`, '_blank');
+          if (successMessage) {
+            successMessage.classList.remove('hidden');
+            form.reset();
+            setTimeout(() => successMessage.classList.add('hidden'), 5000);
+          }
+        });
+      }
+    }
 
+    function initNavbarScroll() {
+      const navbar = document.querySelector('nav');
+      const container = document.getElementById('app-container');
+      
+      function checkScroll() {
+        if (container.scrollTop > 50) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      }
+      
+      container.addEventListener('scroll', checkScroll, { passive: true });
+      checkScroll();
+    }
+
+    function initScrollAnimations() {
+      const fadeSections = document.querySelectorAll('.fade-section');
+      const fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.2, root: document.getElementById('app-container') });
+      fadeSections.forEach(section => fadeObserver.observe(section));
+
+      const statNumbers = document.querySelectorAll('.stat-number');
+      const countObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const el = entry.target;
+            const target = parseFloat(el.getAttribute('data-target'));
+            if (el.classList.contains('counted')) return;
+            el.classList.add('counted');
+            let current = 0;
+            const increment = Math.ceil(target / 50);
+            const timer = setInterval(() => {
+              current += increment;
+              if (current >= target) {
+                el.textContent = target + (el.getAttribute('data-target') === '98' ? '%' : '+');
+                clearInterval(timer);
+              } else {
+                el.textContent = current;
+              }
+            }, 20);
+          }
+        });
+      }, { threshold: 0.5, root: document.getElementById('app-container') });
+      statNumbers.forEach(num => countObserver.observe(num));
+    }
+    
+    function initMouseGlow() {
+      const cursor = document.getElementById('glow-cursor');
+      if (!cursor) return;
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+      });
+      const interactiveElements = document.querySelectorAll('a, button, .group, .nav-link, [data-page], .rounded-2xl, .rounded-xl, .rounded-3xl');
+      interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          cursor.style.width = '300px';
+          cursor.style.height = '300px';
+          cursor.style.background = 'radial-gradient(circle, rgba(30,58,138,0.3) 0%, rgba(109,40,217,0.2) 40%, transparent 70%)';
+        });
+        el.addEventListener('mouseleave', () => {
+          cursor.style.width = '400px';
+          cursor.style.height = '400px';
+          cursor.style.background = 'radial-gradient(circle, rgba(109,40,217,0.25) 0%, rgba(30,58,138,0.15) 40%, transparent 70%)';
+        });
+      });
+    }
+    
+    initNavigation();
+    initProjectDetails();
+    initFilter();
+    initContactForm();
+    initMouseGlow();
+    initNavbarScroll();
+    initScrollAnimations();
+  </script>
 </body>
 </html>
